@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1048487312933",
+    "project_id": "maestros-master",
+    "storage_bucket": "maestros-master.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048487312933:android:9201cd20510f7446bf89cc",
+        "android_client_info": {
+          "package_name": "com.example.maestros"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy1iK3n5YF2XBCh2qUty-ijGmGwusaMYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048487312933:android:4ed6b033f60730efbf89cc",
+        "android_client_info": {
+          "package_name": "com.maestros_master"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy1iK3n5YF2XBCh2qUty-ijGmGwusaMYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
