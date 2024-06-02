@@ -15,6 +15,13 @@ class DrawerGlobal extends StatelessWidget {
 
     final List<Map<String, dynamic>> drawerItemsInfo = [
       {
+        'icon': Icons.home, // Icono para ir al inicio (home)
+        'title': "Inicio", // Título para ir al inicio (home)
+        'onTap': () {
+          Get.offNamed("/home"); // Ir al inicio (home)
+        },
+      },
+      {
         'icon': Icons.school,
         'title': "Materias",
         'onTap': () {
@@ -45,6 +52,15 @@ class DrawerGlobal extends StatelessWidget {
         'onTap': () {
           materiasController.comprobarData();
           Get.toNamed("/asistencia");
+        },
+      },
+      {
+        'icon': Icons.logout, // Icono para cerrar sesión
+        'title': "Cerrar sesión", // Título para cerrar sesión
+        'onTap': () {
+          userController.cerrarSesion();
+          materiasController.MateriaFirebase.clear();
+          Get.offAllNamed("/login");
         },
       },
     ];

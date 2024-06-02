@@ -26,6 +26,16 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Inicio", style: TextStyle(color: Colors.white)),
         backgroundColor: micolor,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.menu, color: Colors.white), // Icono blanco
+              onPressed: () {
+                Scaffold.of(context).openDrawer(); // Abre el cajón del menú
+              },
+            );
+          },
+        ),
         actions: [
           IconButton(
             onPressed: () {
