@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maestros_master/domain/controllers/controllerHorario.dart';
 import 'package:maestros_master/domain/controllers/controllerMaterias.dart';
 import 'package:maestros_master/domain/controllers/controllerUsers.dart';
-import 'package:maestros_master/pages/utils/drawer.dart';
+import 'package:maestros_master/utils/drawer/drawer.dart';
+import '../../widgets/option_card/option.dart'; // Importa la clase Option desde el archivo correspondiente
+import '../../widgets/option_card/option_card.dart'; // Importa la clase OptionCard desde el archivo correspondiente
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -14,97 +15,73 @@ class Home extends StatelessWidget {
     UsersController controlu = Get.find();
     MateriasController mc = Get.find();
 
+    List<Option> options = [
+      Option(icon: Icons.school, name: 'Materias', route: '/materias', color: Colors.green),
+      Option(icon: Icons.schedule, name: 'Horario', route: '/horario', color: Colors.blue),
+      Option(icon: Icons.group, name: 'Estudiantes', route: '/estudiantes', color: Colors.orange),
+      Option(icon: Icons.check_circle, name: 'Asistencia', route: '/asistencia', color: Colors.purple),
+    ];
+
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("HOME"),
-          backgroundColor: micolor,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                child: const Text('Cancelar')),
-                            TextButton(
-                                onPressed: () {
-                                  controlu.cerrarSesion();
-                                  mc.MateriaFirebase.clear();
-                                  Get.offAllNamed("/login");
-                                },
-                                child: const Text('Salir'))
-                          ],
-                          title: const Text('Cerrar sesion'),
-                          content: const Text('Desea salir de la app?'),
-                        );
-                      });
+      appBar: AppBar(
+        title: const Text("Inicio", style: TextStyle(color: Colors.white)),
+        backgroundColor: micolor,
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: const Text('Cancelar'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          controlu.cerrarSesion();
+                          mc.MateriaFirebase.clear();
+                          Get.offAllNamed("/login");
+                        },
+                        child: const Text('Salir'),
+                      ),
+                    ],
+                    title: const Text('Cerrar sesión'),
+                    content: const Text('¿Desea salir de la app?'),
+                  );
                 },
-                icon: const Icon(Icons.logout))
-          ],
-        ),
-        drawer: const DrawerGlobal(),
-        body: const Center(
-          child: Column(
-            children: [
-              //const Boxdate(), Text(recuperarUsuario()),
-               Text("Hola")           
-            ],
+              );
+            },
+            icon: const Icon(Icons.logout, color: Colors.white),
           ),
-        ));
-  }
-}
-
-String recuperarUsuario() {
-  UsersController controlu = Get.find();
-  MateriasController mc = Get.find();
-  String email = "";
-
-  controlu
-      .consultarUsuario()
-      .then((value) => {email = controlu.user!.email.toString()});
-  String? email2 = controlu.user!.email;
-  email = email2 ?? '';
-  mc.comprobarData();
-  mc.obtenerDiaMasProximo();
-  return "";
-}
-
-class Boxdate extends StatelessWidget {
-  const Boxdate({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    MateriasController mc = Get.find();
-    HorarioController hc = Get.find();
-    mc.comprobarData();
-    return Container(
-      margin: const EdgeInsets.only(top: 50),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.blue.shade100,
-      ),
-      child: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              "proxima clase",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(DateTime.now().toString()),
-          )
         ],
+      ),
+      drawer: const DrawerGlobal(),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 3 / 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemCount: options.length,
+          itemBuilder: (context, index) {
+            return OptionCard(
+              icon: options[index].icon,
+              name: options[index].name,
+              route: options[index].route,
+              color: options[index].color,
+            );
+          },
+        ),
       ),
     );
   }
 }
+
+
