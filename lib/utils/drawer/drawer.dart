@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../domain/controllers/controllerMaterias.dart';
-import '../../domain/controllers/controllerUsers.dart';
+import 'package:maestros_master/provider/login_provider.dart';
+import 'package:provider/provider.dart';
 import 'drawer_menu_item.dart';
 
 class DrawerGlobal extends StatelessWidget {
@@ -10,8 +9,8 @@ class DrawerGlobal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final materiasController = Get.find<MateriasController>();
-    final userController = Get.find<UsersController>();
+    //final userController = Get.find<UsersController>();
+    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
 
     final List<Map<String, dynamic>> drawerItemsInfo = [
       {
@@ -25,16 +24,13 @@ class DrawerGlobal extends StatelessWidget {
         'icon': Icons.school,
         'title': "Materias",
         'onTap': () {
-          materiasController
-              .consultarGrupos(userController.user?.email)
-              .then((_) => Get.toNamed("/materias"));
+          Get.toNamed("/materias");
         },
       },
       {
         'icon': Icons.calendar_month,
         'title': "Horario",
         'onTap': () {
-          materiasController.comprobarData();
           Get.toNamed("/horario");
         },
       },
@@ -42,7 +38,6 @@ class DrawerGlobal extends StatelessWidget {
         'icon': Icons.people_alt,
         'title': "Estudiantes",
         'onTap': () {
-          materiasController.comprobarData();
           Get.toNamed("/estudiantes");
         },
       },
@@ -50,7 +45,6 @@ class DrawerGlobal extends StatelessWidget {
         'icon': Icons.checklist_rounded,
         'title': "Asistencia",
         'onTap': () {
-          materiasController.comprobarData();
           Get.toNamed("/asistencia");
         },
       },
@@ -58,8 +52,7 @@ class DrawerGlobal extends StatelessWidget {
         'icon': Icons.logout, // Icono para cerrar sesión
         'title': "Cerrar sesión", // Título para cerrar sesión
         'onTap': () {
-          userController.cerrarSesion();
-          materiasController.MateriaFirebase.clear();
+          loginProvider.logoutUser();
           Get.offAllNamed("/login");
         },
       },

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maestros_master/domain/controllers/controllerMaterias.dart';
+import 'package:maestros_master/domain/controllers/controller_materias.dart';
 import 'package:maestros_master/domain/controllers/controllerStudent.dart';
-import 'package:maestros_master/domain/models/Materias.dart';
+import 'package:maestros_master/domain/models/materias.dart';
 import 'package:maestros_master/domain/models/estudiante.dart';
 
 class ListStudent extends StatelessWidget {
@@ -151,7 +151,7 @@ class ListStudent extends StatelessWidget {
 }
 
 _dropDownButton(MateriasController mc, StudentController sc) {
-  List<Grupo> list = mc.MateriaFirebase;
+  /*List<Grupo> list = mc.MateriaFirebase;
   return Obx(() => SizedBox(
         width: 200,
         child: DropdownButtonFormField(
@@ -172,7 +172,7 @@ _dropDownButton(MateriasController mc, StudentController sc) {
 
               sc.cargarEstudiantes();
             }),
-      ));
+      ));*/
 }
 
 _showFormDialogAdd(context, StudentController controls) {

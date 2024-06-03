@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:maestros_master/domain/controllers/controllerAsistencia.dart';
-import 'package:maestros_master/domain/controllers/controllerMaterias.dart';
+import 'package:maestros_master/domain/controllers/controller_materias.dart';
 import 'package:maestros_master/domain/controllers/controllerStudent.dart';
-import 'package:maestros_master/domain/models/Materias.dart';
+import 'package:maestros_master/domain/models/materias.dart';
 
 class ListAssistanceStudent extends StatelessWidget {
   const ListAssistanceStudent({super.key});
@@ -136,7 +136,7 @@ class ListAssistanceStudent extends StatelessWidget {
 
 _dropDownButton(
     MateriasController mc, StudentController sc, AsistenciaController ac) {
-  List<Grupo> list = mc.MateriaFirebase;
+  /*List<Grupo> list = mc.MateriaFirebase;
   return Obx(() => SizedBox(
         width: 200,
         child: DropdownButtonFormField(
@@ -159,7 +159,7 @@ _dropDownButton(
                 ac.cargarAsistencia();
               });
             }),
-      ));
+      ));*/
 }
 
 bool comprobarCampos(String n, String a) {

@@ -1,7 +1,15 @@
+import 'package:flutter/material.dart';
 
 class Dia {
-  late String nombre;
-  late DateTime horaInicio;
-  late DateTime horaFin;
-  Dia({required this.nombre, required this.horaInicio, required this.horaFin});
+  final String idDia;
+  final String nombreDia;
+  final TimeOfDay horaInicio;
+  final TimeOfDay horaFin;
+
+  Dia({
+    required this.idDia,
+    required this.nombreDia,
+    required this.horaInicio,
+    required this.horaFin,
+  });
 }

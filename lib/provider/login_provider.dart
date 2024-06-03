@@ -11,7 +11,7 @@ class LoginProvider extends ChangeNotifier {
   AuthStatus authStatus = AuthStatus.notAuthenticated;
   User? currentUser;
   Map<String, dynamic>? userInfo;
-  bool _isObscured = true; // Nuevo
+  bool _isObscured = true;
 
   // Getter para obtener el estado de visibilidad de la contraseña
   bool get isObscured => _isObscured;
@@ -35,8 +35,7 @@ class LoginProvider extends ChangeNotifier {
 
       if (resultEmail.docs.isNotEmpty) {
         final String email = resultEmail.docs.first.get('email');
-        final UserCredential userCredential =
-            await _auth.signInWithEmailAndPassword(
+        final UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
@@ -48,26 +47,22 @@ class LoginProvider extends ChangeNotifier {
         notifyListeners();
 
         onSuccess();
-        return;
-      }
-
-      onError('No se encontró el email ingresado.');
-      authStatus = AuthStatus.notAuthenticated;
-      notifyListeners();
-    } on FirebaseAuthException catch (e) {
-      authStatus = AuthStatus.notAuthenticated;
-      notifyListeners();
-
-      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
-        onError('Correo o contraseña incorrecta.');
       } else {
-        onError(e.toString());
+        _handleLoginError('No se encontró el email ingresado.', onError);
       }
+    } on FirebaseAuthException catch (e) {
+      String errorMsg;
+      switch (e.code) {
+        case 'user-not-found':
+        case 'wrong-password':
+          errorMsg = 'Correo o contraseña incorrecta.';
+          break;
+        default:
+          errorMsg = e.message ?? 'Error desconocido';
+      }
+      _handleLoginError(errorMsg, onError);
     } catch (e) {
-      authStatus = AuthStatus.notAuthenticated;
-      notifyListeners();
-
-      onError(e.toString());
+      _handleLoginError(e.toString(), onError);
     }
   }
 
@@ -78,6 +73,7 @@ class LoginProvider extends ChangeNotifier {
         .collection('user')
         .doc(currentUser!.uid)
         .get();
+
     if (userDoc.exists) {
       userInfo = userDoc.data() as Map<String, dynamic>;
     } else {
@@ -92,6 +88,8 @@ class LoginProvider extends ChangeNotifier {
     final user = _auth.currentUser;
 
     if (user != null) {
+      currentUser = user;
+      await _loadUserInfo();
       authStatus = AuthStatus.authenticated;
       notifyListeners();
       return true;
@@ -102,9 +100,28 @@ class LoginProvider extends ChangeNotifier {
     }
   }
 
-  // Método para alternar la visibilidad de la contraseña
   void toggleObscured() {
     _isObscured = !_isObscured;
     notifyListeners();
+  }
+
+  void _handleLoginError(String message, Function(String) onError) {
+    authStatus = AuthStatus.notAuthenticated;
+    notifyListeners();
+    onError(message);
+  }
+
+  // Nueva función para cerrar sesión
+  Future<void> logoutUser() async {
+    try {
+      await _auth.signOut();
+      currentUser = null;
+      userInfo = null;
+      authStatus = AuthStatus.notAuthenticated;
+      notifyListeners();
+    } catch (e) {
+      // Manejar el error si es necesario
+      print('Error al cerrar sesión: $e');
+    }
   }
 }

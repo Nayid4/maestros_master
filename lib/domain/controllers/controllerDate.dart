@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maestros_master/domain/controllers/controllerMaterias.dart';
+import 'package:maestros_master/domain/controllers/controller_materias.dart';
 import 'package:maestros_master/domain/models/dias.dart';
 
 class DateController extends GetxController {
-  final MateriasController materiac = Get.find();
+  /*final MateriasController materiac = Get.find();
   final Rx<TimeOfDay> hora = Rx(const TimeOfDay(hour: 00, minute: 00));
   RxList<Dia> dias = <Dia>[].obs;
   RxList<Dia> dias2 = <Dia>[].obs;
@@ -65,5 +65,5 @@ class DateController extends GetxController {
   void setDia2(int index, String diaSemana) {
     dias2[index].nombre = diaSemana;
     dias2.refresh();
-  }
+  }*/
 }

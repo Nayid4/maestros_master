@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maestros_master/domain/controllers/controllerDate.dart';
-import 'package:maestros_master/domain/controllers/controllerMaterias.dart';
+import 'package:maestros_master/domain/controllers/controller_materias.dart';
 import 'package:maestros_master/domain/controllers/controllerUsers.dart';
 
-class EditGrupo extends StatelessWidget {
-  const EditGrupo({super.key, required this.i});
+class EditMateria extends StatelessWidget {
+  const EditMateria({super.key, required this.i});
   final int i;
   @override
   Widget build(BuildContext context) {
@@ -13,19 +13,19 @@ class EditGrupo extends StatelessWidget {
     MateriasController controlm = Get.find();
     UsersController controls = Get.find();
     DateController controld = Get.find();
-    nombre.text = controlm.MateriaFirebase[i].nombre;
+    //nombre.text = controlm.MateriaFirebase[i].nombreDia;
     //scaffoldAdd(nombre: nombre, grupos: grupos, controlm: controlm, controls: controls);
-    return scaffoldAdd(
+    return  Text("data");/*scaffoldAdd(
       nombre: nombre,
       controlm: controlm,
       controls: controls,
       controld: controld,
       i: i,
-    );
+    );*/
   }
 }
 
-class scaffoldAdd extends StatelessWidget {
+/*class scaffoldAdd extends StatelessWidget {
   const scaffoldAdd({
     super.key,
     required this.nombre,
@@ -57,7 +57,7 @@ class scaffoldAdd extends StatelessWidget {
         child: Scaffold(
             appBar: AppBar(
               title:
-                  Text("Modificar Grupo ${controlm.MateriaFirebase[i].nombre}"),
+                  Text("Modificar Grupo "),
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -83,7 +83,7 @@ class scaffoldAdd extends StatelessWidget {
                           child: Card(
                             elevation: 5,
                             child: ListTile(
-                              title: Text(controld.dias2[index].nombre),
+                              title: Text(controld.dias2[index].nombreDia),
                               subtitle: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -125,7 +125,7 @@ class scaffoldAdd extends StatelessWidget {
               child: TextButton(
                   onPressed: () {
                     if (verificarCampos(nombre.text, controld)) {
-                      controlm
+                      /*controlm
                           .updateGrupo(
                               nombre.text,
                               controld.dias2,
@@ -135,7 +135,7 @@ class scaffoldAdd extends StatelessWidget {
                         Get.snackbar("Grupos", controlm.mensaje.string,
                             icon: const Icon(Icons.warning),
                             duration: const Duration(seconds: 3));
-                      });
+                      });*/
                       Get.back();
                     } else {
                       Get.snackbar(
@@ -261,3 +261,4 @@ _DropDownButton(DateController d, int i) {
         d.setDia2(i, value.toString());
       });
 }
+*/

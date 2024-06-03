@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:maestros_master/domain/controllers/controllerMaterias.dart';
+import 'package:maestros_master/domain/controllers/controller_materias.dart';
 import 'package:maestros_master/domain/controllers/controllerStudent.dart';
 import 'package:maestros_master/domain/models/listaAsistencia.dart';
 
@@ -13,10 +13,10 @@ class AsistenciaController extends GetxController {
   StudentController ec = Get.find();
   RxString mensaje = "".obs;
 
-  Future<void> guardarAsistencia(index) async {
+  /*Future<void> guardarAsistencia(index) async {
     mensaje.value = await PeticionesAsistencia.GuardarAsistencia(
         lista, mc.MateriaFirebase[index]);
-  }
+  }*/
 
   void cargarAsistencia() {
     for (var i = 0; i < ec.listaEstudiante.length; i++) {

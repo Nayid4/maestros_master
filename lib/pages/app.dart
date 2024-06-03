@@ -6,12 +6,12 @@ import 'package:maestros_master/configs/theme.dart';
 import 'package:maestros_master/pages/auth/login/login_get.dart';
 import 'package:maestros_master/pages/auth/register/register_get.dart';
 import 'package:maestros_master/pages/Schedule/ViewHorario.dart';
-import 'package:maestros_master/pages/maters/View_Grupos.dart';
+import 'package:maestros_master/pages/maters/view_materias.dart';
 import 'package:maestros_master/pages/actividades.dart';
 import 'package:maestros_master/pages/home/home.dart';
 import 'package:maestros_master/pages/students/View_List_Assistance.dart';
 import 'package:maestros_master/pages/students/View_List_Studen.dart';
-import 'package:maestros_master/pages/maters/View_Add_Materias.dart';
+import 'package:maestros_master/pages/maters/view_add_materias.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 //ViewaddMaterias
 
@@ -50,7 +50,7 @@ class App extends StatelessWidget {
       routes: {
         "/login": (context) => const LoginGet(),
         "/home": (context) => const Home(),
-        "/materias": (context) => const View_grupos(),
+        "/materias": (context) => const ViewMaterias(),
         "/materiasAdd": (context) => const AddMaterias(),
         "/actividades": (context) => const Actividades(),
         "/horario": (context) => ViewHorario(),

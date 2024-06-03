@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maestros_master/domain/controllers/controllerUsers.dart';
-import 'package:maestros_master/domain/models/Materias.dart';
+import 'package:maestros_master/domain/models/materias.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:maestros_master/domain/controllers/controllerMaterias.dart';
+import 'package:maestros_master/domain/controllers/controller_materias.dart';
 import '../models/dias.dart';
 
 class HorarioController extends GetxController {
@@ -15,9 +15,9 @@ class HorarioController extends GetxController {
 
   void cargarClases() {
     if (listaClases.isEmpty) {
-      materiac.consultarGrupos(userc.user!.email).then((value) {
+      /*materiac.consultarGrupos(userc.user!.email).then((value) {
         cargarEventos();
-      });
+      });*/
     } else {
       cargarEventos();
     }
@@ -26,7 +26,7 @@ class HorarioController extends GetxController {
   void cargarEventos() {
     listaClases.clear();
     DateTime diaActual;
-    for (Grupo materia in materiac.MateriaFirebase) {
+    /*for (Grupo materia in materiac.MateriaFirebase) {
       for (var e in materia.dias) {
         diaActual = DateTime.now();
         Appointment appointment = Appointment(
@@ -42,7 +42,7 @@ class HorarioController extends GetxController {
                 "FREQ=WEEKLY;INTERVAL=1;BYDAY=${ruleDay(e.nombre)};UNTIL=20240908T183000Z");
         listaClases.add(appointment);
       }
-    }
+    }*/
   }
 
   int restarHora(int hi, int hf) => hf - hi;
@@ -65,12 +65,12 @@ class HorarioController extends GetxController {
     DateTime fechaActual = DateTime.now();
     DateTime fechaProxima = DateTime(9999);
     List<DateTime> fechas = [];
-    for (Grupo g in c.MateriaFirebase) {
+    /*for (Grupo g in c.MateriaFirebase) {
       for (Dia d in g.dias) {
         print(d.horaInicio);
         fechas.add(d.horaInicio);
       }
-    }
+    }*/
 
     for (DateTime fecha in fechas) {
       if (fecha.isAfter(fechaActual) &&

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maestros_master/domain/controllers/controllerMaterias.dart';
+import 'package:maestros_master/domain/controllers/controller_materias.dart';
 import 'package:maestros_master/domain/controllers/controllerUsers.dart';
+import 'package:maestros_master/provider/login_provider.dart';
 import 'package:maestros_master/utils/drawer/drawer.dart';
+import 'package:provider/provider.dart';
 import '../../widgets/option_card/option.dart'; // Importa la clase Option desde el archivo correspondiente
 import '../../widgets/option_card/option_card.dart'; // Importa la clase OptionCard desde el archivo correspondiente
 
@@ -12,8 +14,8 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UsersController controlu = Get.find();
-    MateriasController mc = Get.find();
+    //UsersController controlu = Get.find();
+    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
 
     List<Option> options = [
       Option(icon: Icons.school, name: 'Materias', route: '/materias', color: Colors.green),
@@ -52,8 +54,8 @@ class Home extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          controlu.cerrarSesion();
-                          mc.MateriaFirebase.clear();
+                          //controlu.cerrarSesion();
+                          loginProvider.logoutUser();
                           Get.offAllNamed("/login");
                         },
                         child: const Text('Salir'),

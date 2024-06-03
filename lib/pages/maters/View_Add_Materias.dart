@@ -1,291 +1,259 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maestros_master/domain/controllers/controllerDate.dart';
-import 'package:maestros_master/domain/controllers/controllerMaterias.dart';
-import 'package:maestros_master/domain/controllers/controllerUsers.dart';
+import 'package:maestros_master/domain/controllers/controller_materias.dart';
+import 'package:maestros_master/domain/models/dias.dart';
+import 'package:maestros_master/domain/models/materias.dart';
+import 'package:maestros_master/provider/login_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
-class AddMaterias extends StatelessWidget {
-  const AddMaterias({super.key});
+class AddMaterias extends StatefulWidget {
+  const AddMaterias({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController nombre = TextEditingController();
-    TextEditingController grupos = TextEditingController();
-    MateriasController controlm = Get.find();
-    UsersController controls = Get.find();
-    DateController controld = Get.find();
-    //scaffoldAdd(nombre: nombre, grupos: grupos, controlm: controlm, controls: controls);
-    return scaffoldAdd(
-      nombre: nombre,
-      grupos: grupos,
-      controlm: controlm,
-      controls: controls,
-      controld: controld,
-    );
-  }
+  _AddMateriasState createState() => _AddMateriasState();
 }
 
-class scaffoldAdd extends StatelessWidget {
-  const scaffoldAdd({
-    super.key,
-    required this.nombre,
-    required this.grupos,
-    required this.controlm,
-    required this.controls,
-    required this.controld,
-  });
-
-  final TextEditingController nombre;
-  final TextEditingController grupos;
-  final MateriasController controlm;
-  final UsersController controls;
-  final DateController controld;
+class _AddMateriasState extends State<AddMaterias> {
+  final TextEditingController nombreController = TextEditingController();
+  final TextEditingController horaInicioController = TextEditingController();
+  final TextEditingController horaFinController = TextEditingController();
+  String selectedDay = 'Lunes';
+  final List<String> daysOfWeek = [
+    'Lunes',
+    'Martes',
+    'Miércoles',
+    'Jueves',
+    'Viernes',
+    'Sábado'
+  ];
+  List<Dia> selectedDays = [];
+  final MateriasController materiasController = Get.find();
+  final _horaInicioTime = TimeOfDay(hour: 0, minute: 0);
+  final _horaFinTime = TimeOfDay(hour: 0, minute: 0);
 
   @override
   Widget build(BuildContext context) {
-    controld.dias.clear();
-    return WillPopScope(
-      onWillPop: () async {
-        controld.dias.clear();
-        return true;
-      },
-      child: Scaffold(
-          appBar: AppBar(
-            title: const Text("Agregar Materia"),
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 50,
-                ),
-                text_nombre(nombre: nombre),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text('Fecha de finalizacion: '),
-                    IconButton(
-                        onPressed: () {
-                          _showDatePicker(context);
-                        },
-                        icon: const Icon(Icons.calendar_month_outlined))
-                  ],
-                ),
-                IconButton(
-                  onPressed: () {
-                    controld.cargarDias();
-                  },
-                  icon: const Icon(Icons.add_circle_outline),
-                ),
-                Obx(
-                  () => ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controld.dias.length,
-                    itemBuilder: (BuildContext context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: Card(
-                          elevation: 5,
-                          child: ListTile(
-                            title: Text(controld.dias[index].nombre),
-                            subtitle: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                    "Hora.I: ${convertirADateTime(controld.dias[index].horaInicio).format(context)}"),
-                                Text(
-                                    (" - Hora.F: ${convertirADateTime(controld.dias[index].horaFin).format(context)}")),
-                              ],
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                    onPressed: () {
-                                      _showFormDialog(context, controld, index);
-                                    },
-                                    icon: const Icon(Icons.edit)),
-                                IconButton(
-                                    onPressed: () {
-                                      controld.eliminar(index);
-                                    },
-                                    icon: const Icon(Icons.delete))
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Agregar Materia"),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 20),
+            _buildTextField(
+              controller: nombreController,
+              labelText: "Nombre de la materia",
             ),
-          ),
-          bottomNavigationBar: BottomAppBar(
-            height: 60,
-            elevation: 10,
-            notchMargin: double.maxFinite,
-            child: TextButton(
-                onPressed: () {
-                  if (verificarCampos(nombre.text, controld)) {
-                    controlm
-                        .crearGrupo(
-                            nombre.text, controld.dias, controls.user!.email)
-                        .then((value) {
-                      Get.snackbar("Grupos", controlm.mensaje.string,
-                          icon: const Icon(Icons.warning),
-                          duration: const Duration(seconds: 3));
-                    });
-                    Get.back();
-                  } else {
-                    Get.snackbar(
-                        "Grupos", "Digilencie los campos correctamente",
-                        icon: const Icon(Icons.warning),
-                        duration: const Duration(seconds: 3));
-                  }
-                },
-                child: const Text(
-                  "Guardar",
-                  style: TextStyle(fontSize: 25),
-                )),
-          )),
-    );
-  }
-}
+            const SizedBox(height: 20),
+            _buildIconButtonAddDay(),
+            const SizedBox(height: 20),
+            _buildDaysList(),
 
-void _showTimePicker(context, index, int i) {
-  DateController d = Get.find();
-  showTimePicker(
-          context: context, initialTime: const TimeOfDay(hour: 0, minute: 0))
-      .then((value) {
-    if (i == 1) {
-      value == null ? TimeOfDay.now() : d.setHoraInicio(index, value);
-      d.dias.refresh();
-    } else {
-      value == null ? TimeOfDay.now() : d.setHorafin(index, value);
-      d.dias.refresh();
-    }
-  });
-}
-
-void _showFormDialog(context, DateController controld, index) {
-  showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Editar horario"),
-          content: SizedBox(
-            height: 150,
-            child: Form(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _dropDownButton(controld, index),
-                Obx(() => TextButton(
-                    onPressed: () {
-                      _showTimePicker(context, index, 1);
-                    },
-                    child: Text(
-                        "Hora inicio :${convertirADateTime(controld.dias[index].horaInicio).format(context)}",
-                        style: const TextStyle(
-                          color: Colors.black,
-                        )))),
-                Obx(() => TextButton(
-                    onPressed: () {
-                      _showTimePicker(context, index, 2);
-                    },
-                    child: Text(
-                      "Hora fin     :${convertirADateTime(controld.dias[index].horaFin).format(context)}",
-                      style: const TextStyle(color: Colors.black),
-                    ))),
-              ],
-            )),
-          ),
-          actions: [
-            ButtonBar(
-              alignment: MainAxisAlignment.spaceAround,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  child: const Text("Cancelar"),
-                ),
-                TextButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    child: const Text("confirmar")),
-              ],
-            )
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                _addMateria(
+                  nombreController.text,
+                  selectedDays,
+                  materiasController,
+                  context,
+                );
+              },
+              child: const Text("Agregar Materia"),
+            ),
           ],
-        );
-      });
-}
-
-bool verificarCampos(String n, DateController d) {
-  if (n.isEmpty) {
-    return false;
-  }
-  if (d.dias.isEmpty) {
-    return false;
-  }
-
-  return true;
-}
-
-TimeOfDay convertirADateTime(DateTime dt) {
-  return TimeOfDay(hour: dt.hour, minute: dt.minute);
-}
-
-class text_nombre extends StatelessWidget {
-  const text_nombre({
-    super.key,
-    required this.nombre,
-  });
-
-  final TextEditingController nombre;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 50, right: 50, bottom: 50),
-      child: TextField(
-        controller: nombre,
-        decoration: InputDecoration(
-            label: const Text("Nombre del grupo"),
-            hintText: "ejemplo 1 - g01",
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
-        keyboardType: TextInputType.text,
+        ),
       ),
     );
   }
-}
 
-_dropDownButton(DateController d, int i) {
-  List dias = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+  Widget _buildTextField(
+      {required TextEditingController controller, required String labelText}) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
+        border: const OutlineInputBorder(),
+      ),
+    );
+  }
 
-  return DropdownButtonFormField(
-      hint: const Text("Dia"),
-      items: dias
-          .map((dia) => DropdownMenuItem(
-                value: dia,
-                child: Text(dia),
-              ))
-          .toList(),
-      onChanged: (value) {
-        d.setDia(i, value.toString());
-      });
-}
+  Widget _buildIconButtonAddDay() {
+    return IconButton(
+      onPressed: () {
+        _showAddDayDialog(context);
+      },
+      icon: const Icon(Icons.add_circle_outline),
+    );
+  }
 
-void _showDatePicker(context) {
-  showDatePicker(
+  Widget _buildDaysList() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Días de clase"),
+        if (selectedDays.isNotEmpty)
+          Wrap(
+            spacing: 8.0,
+            children: selectedDays.map((day) {
+              return Chip(
+                label: Text(day.nombreDia),
+                onDeleted: () {
+                  setState(() {
+                    selectedDays.remove(day);
+                  });
+                },
+              );
+            }).toList(),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildDropDownButton() {
+    return DropdownButton<String>(
+      value: selectedDay,
+      onChanged: (String? newValue) {
+        if (newValue != null) {
+          setState(() {
+            selectedDay = newValue;
+          });
+        }
+      },
+      items: daysOfWeek.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildTimePicker(
+      {required BuildContext context,
+      required TextEditingController controller,
+      required String labelText}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(labelText),
+        ElevatedButton(
+          onPressed: () {
+            _showTimePicker(context, controller);
+          },
+          child: const Text("Seleccionar hora"),
+        ),
+        if (controller.text.isNotEmpty)
+          Text("Hora seleccionada: ${controller.text}"),
+      ],
+    );
+  }
+
+  void _showTimePicker(
+      BuildContext context,
+      TextEditingController controller) {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      if (value != null) {
+        controller.text = value.format(context);
+      }
+    });
+  }
+
+  void _addMateria(
+      String nombre,
+      List<Dia> dias,
+      MateriasController materiasController,
+      BuildContext context) async {
+    final Materia nuevaMateria = Materia(
+      idMateria: const Uuid().v4(),
+      nombre: nombre,
+      idUsuario: Provider.of<LoginProvider>(context, listen: false)
+              .currentUser?.uid ?? '',
+      dias: dias,
+    );
+    print('Mundo');
+    print(dias[0].nombreDia);
+    print(dias[0].idDia);
+    print(dias[0].horaInicio);
+    print(dias[0].horaFin);
+    await materiasController.addMateria(nuevaMateria);
+    print('Hola');
+    Get.back(result: true);
+  }
+
+  void _showAddDayDialog(BuildContext context) {
+  TextEditingController horaInicioController = TextEditingController();
+  TextEditingController horaFinController = TextEditingController();
+
+  showDialog(
     context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime(2023),
-    lastDate: DateTime(2055),
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            title: const Text("Agregar Horario"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildDropDownButton(),
+                const SizedBox(height: 20),
+                _buildTimePicker(
+                  context: context,
+                  controller: horaInicioController,
+                  labelText: "Hora de inicio",
+                ),
+                const SizedBox(height: 20),
+                _buildTimePicker(
+                  context: context,
+                  controller: horaFinController,
+                  labelText: "Hora de fin",
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Cancelar'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    // Crear un nuevo objeto Dia con la información seleccionada
+                    Dia newDay = Dia(
+                      idDia: const Uuid().v4(),
+                      nombreDia: selectedDay,
+                      horaInicio: TimeOfDay(
+                        hour: int.parse(horaInicioController.text.split(":")[0]),
+                        minute: int.parse(horaInicioController.text.split(":")[1]),
+                      ),
+                      horaFin: TimeOfDay(
+                        hour: int.parse(horaFinController.text.split(":")[0]),
+                        minute: int.parse(horaFinController.text.split(":")[1]),
+                      ),
+                    );
+                    // Agregar el nuevo objeto Dia a la lista de días de clase
+                    selectedDays.add(newDay);
+                  });
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Agregar'),
+              ),
+            ],
+          );
+        },
+      );
+    },
   );
+}
+
 }

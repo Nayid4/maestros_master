@@ -1,8 +1,15 @@
 import 'dias.dart';
 
-class Grupo {
+class Materia {
+  final String idMateria;
+  final String idUsuario;
   final String nombre;
-  final String id;
   final List<Dia> dias;
-  Grupo({required this.nombre, required this.id, required this.dias});
+
+  Materia({
+    required this.idMateria,
+    required this.nombre,
+    required this.idUsuario,
+    required this.dias,
+  });
 }

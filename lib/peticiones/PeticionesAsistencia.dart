@@ -1,6 +1,6 @@
-import 'package:firebase_storage/firebase_storage.dart' as fs;
+/*import 'package:firebase_storage/firebase_storage.dart' as fs;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:maestros_master/domain/models/Materias.dart';
+import 'package:maestros_master/domain/models/materias.dart';
 
 import '../domain/models/listaAsistencia.dart';
 
@@ -34,3 +34,4 @@ class PeticionesAsistencia {
     }).toList();
   }
 }
+*/
