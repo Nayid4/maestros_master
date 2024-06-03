@@ -33,12 +33,7 @@ class MateriasController extends GetxController {
       List<Materia> fetchedMaterias = snapshot.docs.map((doc) {
         var data = doc.data() as Map<String, dynamic>;
         List<Dia> dias = (data['dias'] as List).map((dia) {
-          return Dia(
-            idDia: dia['idDia'],
-            nombreDia: dia['nombreDia'],
-            horaInicio: dia['horaInicio'],
-            horaFin: dia['horaFin'],
-          );
+          return Dia.fromMap(dia as Map<String, dynamic>);
         }).toList();
 
         return Materia(
@@ -56,19 +51,13 @@ class MateriasController extends GetxController {
     }
   }
 
-
   // Método para agregar una materia a Firestore
   Future<void> addMateria(Materia materia) async {
     try {
       await _firestore.collection('materias').doc(materia.idMateria).set({
         'nombre': materia.nombre,
         'idUsuario': materia.idUsuario,
-        'dias': materia.dias.map((dia) => {
-          'idDia': dia.idDia,
-          'nombreDia': dia.nombreDia,
-          'horaInicio': dia.horaInicio,
-          'horaFin': dia.horaFin,
-        }).toList(),
+        'dias': materia.dias.map((dia) => dia.toMap()).toList(),
       });
 
       materias.add(materia);
@@ -76,7 +65,6 @@ class MateriasController extends GetxController {
       Get.snackbar('Error', 'No se pudo agregar la materia: $e');
     }
   }
-
 
   // Método para eliminar una materia de Firestore
   Future<void> deleteMateria(String idMateria) async {
@@ -94,12 +82,7 @@ class MateriasController extends GetxController {
       await _firestore.collection('materias').doc(materia.idMateria).update({
         'nombre': materia.nombre,
         'idUsuario': materia.idUsuario,
-        'dias': materia.dias.map((dia) => {
-          'idDia': dia.idDia,
-          'nombreDia': dia.nombreDia,
-          'horaInicio': dia.horaInicio,
-          'horaFin': dia.horaFin,
-        }).toList(),
+        'dias': materia.dias.map((dia) => dia.toMap()).toList(),
       });
 
       int index = materias.indexWhere((m) => m.idMateria == materia.idMateria);
