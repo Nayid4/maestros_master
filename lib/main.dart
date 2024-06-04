@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
-import 'domain/controllers/controllerDate.dart';
 import 'domain/controllers/controller_materias.dart';
 import 'domain/controllers/login_controller.dart';
 import 'provider/login_provider.dart';

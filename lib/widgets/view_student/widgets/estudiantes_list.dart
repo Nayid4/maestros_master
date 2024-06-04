@@ -95,8 +95,8 @@ class EstudiantesList extends StatelessWidget {
                 color: Colors.greenAccent.shade400,
                 size: 40,
               ),
-              title: Text("Nombres: ${estudiantes[index].nombre}"),
-              subtitle: Text("Apellidos:${estudiantes[index].apellidos}"),
+              title: Text("${estudiantes[index].nombre} ${estudiantes[index].apellidos}"),
+              subtitle: Text("CC ${estudiantes[index].cedula}"),
             ),
           ),
         );

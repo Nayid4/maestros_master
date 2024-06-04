@@ -39,9 +39,15 @@ class _EditMateriaState extends State<EditMateria> {
 
   @override
   Widget build(BuildContext context) {
+    const Color miColor = Color.fromRGBO(0, 191, 99, 1);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Editar Materia"),
+        title: const Text("Editar Materia", style: TextStyle(color: Colors.white)),
+        backgroundColor: miColor,
+        iconTheme: const IconThemeData(
+          color: Colors.white, // Cambia el color de la flecha de retroceso a blanco
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -57,21 +63,26 @@ class _EditMateriaState extends State<EditMateria> {
             _buildIconButtonAddDay(),
             const SizedBox(height: 20),
             _buildDaysList(),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                _editMateria(
-                  widget.materia.idMateria,
-                  nombreController.text,
-                  selectedDays,
-                  widget.materia.estudiantes,
-                  materiasController,
-                  context,
-                );
-              },
-              child: const Text("Guardar Cambios"),
-            ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromRGBO(0, 191, 99, 1), // Cambia el color del botón
+          ),
+          onPressed: () {
+            _editMateria(
+              widget.materia.idMateria,
+              nombreController.text,
+              selectedDays,
+              widget.materia.estudiantes,
+              materiasController,
+              context,
+            );
+          },
+          child: const Text("Guardar Cambios", style: TextStyle(color: Colors.white)),
         ),
       ),
     );
@@ -143,14 +154,12 @@ class _EditMateriaState extends State<EditMateria> {
     return localizations.formatTimeOfDay(time, alwaysUse24HourFormat: false);
   }
 
-  Widget _buildDropDownButton() {
+  Widget _buildDropDownButton(void Function(String) onChanged) {
     return DropdownButton<String>(
       value: selectedDay,
       onChanged: (String? newValue) {
         if (newValue != null) {
-          setState(() {
-            selectedDay = newValue;
-          });
+          onChanged(newValue);
         }
       },
       items: daysOfWeek.map<DropdownMenuItem<String>>((String value) {
@@ -208,7 +217,7 @@ class _EditMateriaState extends State<EditMateria> {
       nombre: nombre,
       idUsuario: widget.materia.idUsuario,
       dias: dias,
-      estudiantes: estudiantes
+      estudiantes: estudiantes,
     );
 
     await materiasController.updateMateria(materiaEditada);
@@ -220,6 +229,7 @@ class _EditMateriaState extends State<EditMateria> {
     TextEditingController horaFinController = TextEditingController();
     TimeOfDay? selectedHoraInicio;
     TimeOfDay? selectedHoraFin;
+    String tempSelectedDay = selectedDay;
 
     showDialog(
       context: context,
@@ -232,7 +242,11 @@ class _EditMateriaState extends State<EditMateria> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildDropDownButton(),
+                  _buildDropDownButton((newDay) {
+                    setState(() {
+                      tempSelectedDay = newDay;
+                    });
+                  }),
                   const SizedBox(height: 20),
                   _buildTimePicker(
                     context: context,
@@ -266,16 +280,15 @@ class _EditMateriaState extends State<EditMateria> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (selectedHoraInicio != null &&
-                        selectedHoraFin != null) {
+                    if (selectedHoraInicio != null && selectedHoraFin != null) {
                       setState(() {
                         Dia newDay = Dia(
                           idDia: const Uuid().v4(),
-                          nombreDia: selectedDay,
-                          horaInicio: DateTime(
-                              0, 0, 0, selectedHoraInicio!.hour, selectedHoraInicio!.minute),
-                          horaFin: DateTime(
-                              0, 0, 0, selectedHoraFin!.hour, selectedHoraFin!.minute),
+                          nombreDia: tempSelectedDay,
+                          horaInicio: DateTime(0, 0, 0,
+                              selectedHoraInicio!.hour, selectedHoraInicio!.minute),
+                          horaFin: DateTime(0, 0, 0,
+                              selectedHoraFin!.hour, selectedHoraFin!.minute),
                         );
                         selectedDays.add(newDay);
                       });
@@ -291,16 +304,19 @@ class _EditMateriaState extends State<EditMateria> {
           },
         );
       },
-    );
+    ).then((_) {
+      setState(() {});  // Ensure the parent state updates after the dialog is closed
+    });
   }
 
   void _showEditDayDialog(BuildContext context, Dia dia) {
     TextEditingController horaInicioController = TextEditingController();
     TextEditingController horaFinController = TextEditingController();
-    TimeOfDay selectedHoraInicio = TimeOfDay(
-        hour: dia.horaInicio.hour, minute: dia.horaInicio.minute);
+    TimeOfDay selectedHoraInicio =
+        TimeOfDay.fromDateTime(dia.horaInicio);
     TimeOfDay selectedHoraFin =
-        TimeOfDay(hour: dia.horaFin.hour, minute: dia.horaFin.minute);
+        TimeOfDay.fromDateTime(dia.horaFin);
+    String tempSelectedDay = dia.nombreDia;
 
     horaInicioController.text = selectedHoraInicio.format(context);
     horaFinController.text = selectedHoraFin.format(context);
@@ -316,7 +332,11 @@ class _EditMateriaState extends State<EditMateria> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildDropDownButton(),
+                  _buildDropDownButton((newDay) {
+                    setState(() {
+                      tempSelectedDay = newDay;
+                    });
+                  }),
                   const SizedBox(height: 20),
                   _buildTimePicker(
                     context: context,
@@ -351,7 +371,7 @@ class _EditMateriaState extends State<EditMateria> {
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      dia.nombreDia = selectedDay;
+                      dia.nombreDia = tempSelectedDay;
                       dia.horaInicio = DateTime(0, 0, 0,
                           selectedHoraInicio.hour, selectedHoraInicio.minute);
                       dia.horaFin = DateTime(0, 0, 0,
@@ -366,6 +386,8 @@ class _EditMateriaState extends State<EditMateria> {
           },
         );
       },
-    );
+    ).then((_) {
+      setState(() {});  // Ensure the parent state updates after the dialog is closed
+    });
   }
 }
