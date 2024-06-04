@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:maestros_master/provider/login_provider.dart';
 import 'package:maestros_master/domain/controllers/controller_materias.dart';
 import 'package:maestros_master/domain/models/materias.dart';
-import 'dialogs/show_form_dialog_add.dart';
-import 'dialogs/show_no_materia_selected_dialog.dart';
-import 'widgets/drop_down_button_widget.dart';
-import 'widgets/no_estudiantes_widget.dart';
-import 'widgets/estudiantes_list.dart';
-import 'widgets/no_materia_selected_widget.dart';
+import 'package:maestros_master/widgets/view_student/dialogs/show_form_dialog_add.dart';
+import 'package:maestros_master/widgets/view_student/dialogs/show_no_materia_selected_dialog.dart';
+import 'package:maestros_master/widgets/view_student/widgets/drop_down_button_widget.dart';
+import 'package:maestros_master/widgets/view_student/widgets/no_estudiantes_widget.dart';
+import 'package:maestros_master/widgets/view_student/widgets/estudiantes_list.dart';
+import 'package:maestros_master/widgets/view_student/widgets/no_materia_selected_widget.dart';
 
 class ListStudent extends StatefulWidget {
   const ListStudent({Key? key}) : super(key: key);

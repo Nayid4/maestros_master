@@ -4,12 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
-import 'domain/controllers/controllerAsistencia.dart';
 import 'domain/controllers/controllerDate.dart';
-import 'domain/controllers/controllerHorario.dart';
 import 'domain/controllers/controller_materias.dart';
-import 'domain/controllers/controllerStudent.dart';
-import 'domain/controllers/controllerUsers.dart';
 import 'domain/controllers/login_controller.dart';
 import 'provider/login_provider.dart';
 import 'provider/register_provider.dart';
@@ -22,11 +18,7 @@ void main() async {
   );
 
   // Inicialización de proveedores y controladores
-  Get.put(UsersController());
   Get.put(MateriasController());
-  Get.put(HorarioController());
-  Get.put(StudentController());
-  Get.put(AsistenciaController());
   Get.put(LoginController());
 
   runApp(

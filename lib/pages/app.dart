@@ -55,7 +55,7 @@ class App extends StatelessWidget {
         "/actividades": (context) => const Actividades(),
         "/horario": (context) => ViewHorario(),
         "/estudiantes": (context) => const ListStudent(),
-        "/asistencia": (context) => const ListAssistanceStudent(),
+        //"/asistencia": (context) => const ListAssistanceStudent(),
         "/registrarse": (context) => const RegisterGet()
       },
     );
