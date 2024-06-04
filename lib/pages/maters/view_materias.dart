@@ -38,6 +38,7 @@ class _ViewMateriasState extends State<ViewMaterias> {
     final MateriasController materiasController = Get.find();
     final loginProvider = Provider.of<LoginProvider>(context);
     final String userId = loginProvider.currentUser?.uid ?? '';
+    
 
     return Scaffold(
       appBar: AppBar(

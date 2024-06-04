@@ -16,7 +16,7 @@ class PeticionesEstudiantes {
     return querySnapshot;
   }
 
-  static Future<String> guardarEstudiantes(Estudiante e) async {
+  /*static Future<String> guardarEstudiantes(Estudiante e) async {
     try {
       await _db.collection('estudiantes').add({
         'nombres': e.nombre,
@@ -52,5 +52,5 @@ class PeticionesEstudiantes {
     } catch (e) {
       return "No se pudo eliminar el estudiante";
     }
-  }
+  }*/
 }

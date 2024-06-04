@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maestros_master/domain/controllers/controller_materias.dart';
 import 'package:maestros_master/domain/models/dias.dart';
+import 'package:maestros_master/domain/models/estudiante.dart';
 import 'package:maestros_master/domain/models/materias.dart';
 import 'package:uuid/uuid.dart';
 
@@ -63,6 +64,7 @@ class _EditMateriaState extends State<EditMateria> {
                   widget.materia.idMateria,
                   nombreController.text,
                   selectedDays,
+                  widget.materia.estudiantes,
                   materiasController,
                   context,
                 );
@@ -198,6 +200,7 @@ class _EditMateriaState extends State<EditMateria> {
       String idMateria,
       String nombre,
       List<Dia> dias,
+      List<Estudiante> estudiantes,
       MateriasController materiasController,
       BuildContext context) async {
     final Materia materiaEditada = Materia(
@@ -205,6 +208,7 @@ class _EditMateriaState extends State<EditMateria> {
       nombre: nombre,
       idUsuario: widget.materia.idUsuario,
       dias: dias,
+      estudiantes: estudiantes
     );
 
     await materiasController.updateMateria(materiaEditada);

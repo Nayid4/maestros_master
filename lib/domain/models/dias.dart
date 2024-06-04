@@ -1,8 +1,8 @@
 class Dia {
-  final String idDia;
-  late final String nombreDia;
-  late final DateTime horaInicio;
-  late final DateTime horaFin;
+  String idDia;
+  String nombreDia;
+  DateTime horaInicio;
+  DateTime horaFin;
 
   Dia({
     required this.idDia,

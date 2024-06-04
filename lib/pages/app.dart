@@ -10,7 +10,7 @@ import 'package:maestros_master/pages/maters/view_materias.dart';
 import 'package:maestros_master/pages/actividades.dart';
 import 'package:maestros_master/pages/home/home.dart';
 import 'package:maestros_master/pages/students/View_List_Assistance.dart';
-import 'package:maestros_master/pages/students/View_List_Studen.dart';
+import 'package:maestros_master/pages/students/view_students/view_student.dart';
 import 'package:maestros_master/pages/maters/view_add_materias.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 //ViewaddMaterias

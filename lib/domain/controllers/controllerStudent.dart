@@ -9,13 +9,13 @@ class StudentController extends GetxController {
   RxString idclass = "".obs;
 
   Future<void> guardarEstudiantes(nombre, apellidos, cedula) async {
-    Estudiante e = Estudiante(
+    /*Estudiante e = Estudiante(
         nombre: nombre,
         apellidos: apellidos,
         id: cedula,
         classID: idclass.value);
     mensaje.value = await PeticionesEstudiantes.guardarEstudiantes(e);
-
+*/
     cargarEstudiantes();
   }
 
@@ -44,7 +44,7 @@ class StudentController extends GetxController {
     }
   }
 
-  Future<void> eliminarEstudiante(id) async {
+  /*Future<void> eliminarEstudiante(id) async {
     mensaje.value = await PeticionesEstudiantes.eliminarEstudiantes(id);
     cargarEstudiantes();
   }
@@ -52,5 +52,5 @@ class StudentController extends GetxController {
   Future<void> editarEstudiante(Estudiante e) async {
     mensaje.value = await PeticionesEstudiantes.editarEstudiantes(e);
     cargarEstudiantes();
-  }
+  }*/
 }

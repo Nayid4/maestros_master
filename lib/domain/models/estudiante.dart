@@ -1,16 +1,31 @@
-import 'package:flutter/cupertino.dart';
-
-@immutable
 class Estudiante {
-  final String nombre;
-  final String apellidos;
-  final String id;
-  final String classID;
+  String idEstudiante;
+  String cedula;
+  String nombre;
+  String apellidos;
 
-  const Estudiante({
+  Estudiante({
+    required this.idEstudiante,
+    required this.cedula,
     required this.nombre,
     required this.apellidos,
-    required this.id,
-    required this.classID,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'idEstudiante': idEstudiante,
+      'cedula': cedula,
+      'nombre': nombre,
+      'apellidos': apellidos,
+    };
+  }
+
+  factory Estudiante.fromMap(Map<String, dynamic> map) {
+    return Estudiante(
+      idEstudiante: map['idEstudiante'],
+      cedula: map['cedula'],
+      nombre: map['nombre'],
+      apellidos: map['apellidos'],
+    );
+  }
 }
