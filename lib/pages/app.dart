@@ -14,7 +14,8 @@ import 'package:maestros_master/pages/actividades.dart';
 import 'package:maestros_master/pages/home/home.dart';
 import 'package:maestros_master/pages/students/View_List_Assistance.dart';
 import 'package:maestros_master/pages/students/view_students/view_student.dart';
-import 'package:maestros_master/pages/maters/view_add_materias.dart';
+//import 'package:maestros_master/pages/maters/view_add_materias.dart';
+import 'package:maestros_master/pages/maters/add_materia/add_materia.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 //ViewaddMaterias
 
@@ -54,7 +55,7 @@ class App extends StatelessWidget {
         "/login": (context) => const LoginGet(),
         "/home": (context) => const Home(),
         "/materias": (context) => const ViewMaterias(),
-        "/materiasAdd": (context) => const AddMaterias(),
+        "/materiasAdd": (context) => const AddMateria(),
         "/editar-materia": (context) => EditMateria(materia: ModalRoute.of(context)!.settings.arguments as Materia),
         "/actividades": (context) => const Actividades(),
         "/horario": (context) => ViewHorario(),
