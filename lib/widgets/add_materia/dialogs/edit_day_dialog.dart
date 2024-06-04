@@ -99,5 +99,7 @@ void showEditDayDialog(BuildContext context, Function setState, Dia dia, List<St
         },
       );
     },
-  );
+  ).then((_) {
+      setState(() {});  // Ensure the parent state updates after the dialog is closed
+    });
 }
