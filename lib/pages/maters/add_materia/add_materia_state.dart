@@ -31,7 +31,7 @@ class AddMateriaState extends State<AddMateria> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Editar Materia", style: TextStyle(color: Colors.white)),
+        title: const Text("Agregar Materia", style: TextStyle(color: Colors.white)),
         backgroundColor: miColor,
         iconTheme: const IconThemeData(
           color: Colors.white, // Cambia el color de la flecha de retroceso a blanco
