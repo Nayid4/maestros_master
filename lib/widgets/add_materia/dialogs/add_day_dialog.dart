@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:maestros_master/domain/models/dias.dart';
 
-void showAddDayDialog(BuildContext context, Function setState, List<Dia> selectedDays, String selectedDay, List<String> daysOfWeek) {
+void showAddDayDialog(BuildContext context, Function addNewDay, Function setState, List<Dia> selectedDays, String selectedDay, List<String> daysOfWeek) {
   TextEditingController horaInicioController = TextEditingController();
   TextEditingController horaFinController = TextEditingController();
   TimeOfDay? selectedHoraInicio;
@@ -90,9 +90,7 @@ void showAddDayDialog(BuildContext context, Function setState, List<Dia> selecte
                       horaInicio: DateTime(0, 0, 0, selectedHoraInicio!.hour, selectedHoraInicio!.minute),
                       horaFin: DateTime(0, 0, 0, selectedHoraFin!.hour, selectedHoraFin!.minute),
                     );
-                    setState(() {
-                      selectedDays.add(newDay);
-                    });
+                    addNewDay(newDay); // Llama a la función de callback para agregar un nuevo horario
                     Navigator.of(context).pop();
                   } else {
                     // Manejar el caso en el que una o ambas horas no están seleccionadas

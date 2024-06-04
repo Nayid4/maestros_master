@@ -13,6 +13,7 @@ import 'package:maestros_master/widgets/add_materia/dialogs/edit_day_dialog.dart
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
+
 class AddMateriaState extends State<AddMateria> {
   final TextEditingController nombreController = TextEditingController();
   String selectedDay = 'Lunes';
@@ -23,6 +24,24 @@ class AddMateriaState extends State<AddMateria> {
   void initState() {
     super.initState();
     nombreController.text = '';
+  }
+
+  void _addMateria(
+    String nombre,
+    List<Dia> dias,
+    MateriasController materiasController,
+    BuildContext context,
+  ) async {
+    final Materia nuevaMateria = Materia(
+      idMateria: const Uuid().v4(),
+      nombre: nombre,
+      idUsuario: Provider.of<LoginProvider>(context, listen: false).currentUser?.uid ?? '',
+      dias: dias,
+      estudiantes: [],
+    );
+
+    await materiasController.addMateria(nuevaMateria);
+    Get.back(result: true);
   }
 
   @override
@@ -48,7 +67,7 @@ class AddMateriaState extends State<AddMateria> {
               labelText: "Nombre de la materia",
             ),
             const SizedBox(height: 20),
-            buildIconButtonAddDay(context, (context) => showAddDayDialog(context, setState, selectedDays, selectedDay, [
+            buildIconButtonAddDay(context, (context) => showAddDayDialog(context, addNewDay, setState, selectedDays, selectedDay, [
               'Lunes',
               'Martes',
               'Miércoles',
@@ -56,6 +75,7 @@ class AddMateriaState extends State<AddMateria> {
               'Viernes',
               'Sábado'
             ])),
+
             const SizedBox(height: 20),
             buildDaysList(selectedDays, context, (context, dia) => showEditDayDialog(context, setState, dia, [
               'Lunes',
@@ -88,21 +108,9 @@ class AddMateriaState extends State<AddMateria> {
     );
   }
 
-  void _addMateria(
-      String nombre,
-      List<Dia> dias,
-      MateriasController materiasController,
-      BuildContext context) async {
-    final Materia nuevaMateria = Materia(
-      idMateria: const Uuid().v4(),
-      nombre: nombre,
-      idUsuario: Provider.of<LoginProvider>(context, listen: false)
-              .currentUser?.uid ?? '',
-      dias: dias,
-      estudiantes: [],
-    );
-
-    await materiasController.addMateria(nuevaMateria);
-    Get.back(result: true);
+  void addNewDay(Dia newDay) {
+    setState(() {
+      selectedDays.add(newDay);
+    });
   }
 }
