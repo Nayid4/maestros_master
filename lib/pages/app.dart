@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:maestros_master/configs/theme.dart';
+import 'package:maestros_master/domain/models/materias.dart';
 import 'package:maestros_master/pages/auth/login/login_get.dart';
 import 'package:maestros_master/pages/auth/register/register_get.dart';
 import 'package:maestros_master/pages/Schedule/ViewHorario.dart';
+import 'package:maestros_master/pages/maters/view_edit_materia.dart';
 import 'package:maestros_master/pages/maters/view_materias.dart';
 import 'package:maestros_master/pages/actividades.dart';
 import 'package:maestros_master/pages/home/home.dart';
@@ -52,6 +54,7 @@ class App extends StatelessWidget {
         "/home": (context) => const Home(),
         "/materias": (context) => const ViewMaterias(),
         "/materiasAdd": (context) => const AddMaterias(),
+        "/editar-materia": (context) => EditMateria(materia: ModalRoute.of(context)!.settings.arguments as Materia),
         "/actividades": (context) => const Actividades(),
         "/horario": (context) => ViewHorario(),
         "/estudiantes": (context) => const ListStudent(),

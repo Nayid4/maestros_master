@@ -7,11 +7,13 @@ import 'package:maestros_master/pages/maters/view_edit_materia.dart';
 class MateriaCard extends StatelessWidget {
   final Materia materia;
   final MateriasController materiasController;
+  final VoidCallback onEdit;
 
   const MateriaCard({
     Key? key,
     required this.materia,
     required this.materiasController,
+    required this.onEdit,
   }) : super(key: key);
 
   String formatTime(DateTime time) {
@@ -81,9 +83,7 @@ class MateriaCard extends StatelessWidget {
                   icon: const Icon(Icons.delete, color: Colors.red),
                 ),
                 IconButton(
-                  onPressed: () {
-                    Get.to(() => EditMateria(materia: materia));
-                  },
+                  onPressed: onEdit,
                   icon: const Icon(Icons.edit, color: Colors.blue),
                 ),
               ],

@@ -33,12 +33,27 @@ class _ViewMateriasState extends State<ViewMaterias> {
     }
   }
 
+  void _navigateToEditMateria(BuildContext context, Materia materia) async {
+    final result = await Get.toNamed("/editar-materia", arguments: materia);
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    if (scaffoldMessenger.mounted) {
+      if (result == true) {
+        scaffoldMessenger.showSnackBar(
+          const SnackBar(
+            content: Text('Materia editada con éxito'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        setState(() {});
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final MateriasController materiasController = Get.find();
     final loginProvider = Provider.of<LoginProvider>(context);
     final String userId = loginProvider.currentUser?.uid ?? '';
-    
 
     return Scaffold(
       appBar: AppBar(
@@ -74,6 +89,7 @@ class _ViewMateriasState extends State<ViewMaterias> {
                 return MateriaCard(
                   materia: materia,
                   materiasController: materiasController,
+                  onEdit: () => _navigateToEditMateria(context, materia),
                 );
               },
             );
