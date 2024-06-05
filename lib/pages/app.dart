@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:maestros_master/configs/theme.dart';
 import 'package:maestros_master/domain/models/materias.dart';
+import 'package:maestros_master/pages/asistence/view_asistence.dart';
 import 'package:maestros_master/pages/auth/login/login_get.dart';
 import 'package:maestros_master/pages/auth/register/register_get.dart';
 import 'package:maestros_master/pages/Schedule/ViewHorario.dart';
@@ -12,7 +13,6 @@ import 'package:maestros_master/pages/maters/edit_materia/edit_materia.dart';
 import 'package:maestros_master/pages/maters/view_materias.dart';
 import 'package:maestros_master/pages/actividades.dart';
 import 'package:maestros_master/pages/home/home.dart';
-import 'package:maestros_master/pages/students/View_List_Assistance.dart';
 import 'package:maestros_master/pages/students/view_students/view_student.dart';
 //import 'package:maestros_master/pages/maters/view_add_materias.dart';
 import 'package:maestros_master/pages/maters/add_materia/add_materia.dart';
@@ -60,7 +60,7 @@ class App extends StatelessWidget {
         "/actividades": (context) => const Actividades(),
         "/horario": (context) => ViewHorario(),
         "/estudiantes": (context) => const ListStudent(),
-        //"/asistencia": (context) => const ListAssistanceStudent(),
+        "/asistencia": (context) => const ViewAsistence(),
         "/registrarse": (context) => const RegisterGet()
       },
     );
