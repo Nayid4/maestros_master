@@ -49,8 +49,8 @@ void showFormDialogAdd(BuildContext context, MateriasController controlm, Materi
               ),
               TextButton(
                 onPressed: () async {
-                  String idEstudiante = Uuid().v4();
-                  await controlm.addEstudianteToMateria(
+                  String idEstudiante = const Uuid().v4();
+                  bool addedSuccessfully = await controlm.addEstudianteToMateria(
                     selectedMateria.idMateria,
                     Estudiante(
                       idEstudiante: idEstudiante,
@@ -58,7 +58,8 @@ void showFormDialogAdd(BuildContext context, MateriasController controlm, Materi
                       nombre: textNombres.text,
                       apellidos: textApellidos.text,
                     ),
-                  ).then((value) {
+                  );
+                  if (addedSuccessfully) {
                     Get.back();
                     Get.snackbar(
                       'Estudiante',
@@ -66,10 +67,11 @@ void showFormDialogAdd(BuildContext context, MateriasController controlm, Materi
                       icon: const Icon(Icons.check),
                       duration: const Duration(seconds: 2),
                     );
-                  });
+                  }
                 },
                 child: const Text("Guardar"),
               ),
+
             ],
           )
         ],

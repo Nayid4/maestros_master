@@ -98,10 +98,17 @@ class MateriasController extends GetxController {
   }
 
   // Método para agregar un estudiante a una materia
-  Future<void> addEstudianteToMateria(String idMateria, Estudiante estudiante) async {
+  Future<bool> addEstudianteToMateria(String idMateria, Estudiante estudiante) async {
     try {
       int materiaIndex = materias.indexWhere((m) => m.idMateria == idMateria);
       if (materiaIndex != -1) {
+        String existingCedula = estudiante.cedula;
+        bool cedulaExists = materias[materiaIndex].estudiantes.any((est) => est.cedula == existingCedula);
+        if (cedulaExists) {
+          Get.snackbar('Error', 'La cédula ya existe');
+          return false;
+        }
+        
         materias[materiaIndex].estudiantes.add(estudiante);
 
         await _firestore.collection('materias').doc(idMateria).update({
@@ -109,11 +116,16 @@ class MateriasController extends GetxController {
         });
 
         materias.refresh();
+        return true;
       }
+      return false;
     } catch (e) {
       Get.snackbar('Error', 'No se pudo agregar el estudiante: $e');
+      return false;
     }
   }
+
+
 
   // Método para obtener estudiantes de una materia
   List<Estudiante> getEstudiantesFromMateria(String idMateria) {
