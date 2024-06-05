@@ -8,9 +8,9 @@ import 'package:maestros_master/domain/models/materias.dart';
 import 'package:maestros_master/provider/login_provider.dart';
 import 'package:maestros_master/utils/drawer/drawer.dart';
 import 'package:provider/provider.dart';
-import './widgets/drop_down_button_widget.dart';
-import './widgets/no_materia_selected_widget.dart';
-import './widgets/asistencias_list.dart';
+import 'package:maestros_master/widgets/asistence/drop_down_button_widget.dart';
+import 'package:maestros_master/widgets/asistence/no_materia_selected_widget.dart';
+import 'package:maestros_master/widgets/asistence/asistencias_list.dart';
 import 'package:uuid/uuid.dart'; // Importa la biblioteca uuid
 
 class ViewAsistence extends StatefulWidget {

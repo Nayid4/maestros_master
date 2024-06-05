@@ -13,10 +13,6 @@ class MateriasController extends GetxController {
   // Usuario actual
   late String currentUserId;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   // Método para establecer el ID del usuario actual
   void setCurrentUserId(String userId) {

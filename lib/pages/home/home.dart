@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maestros_master/domain/controllers/controller_materias.dart';
 //import 'package:maestros_master/domain/controllers/controllerUsers.dart';
 import 'package:maestros_master/provider/login_provider.dart';
 import 'package:maestros_master/utils/drawer/drawer.dart';
