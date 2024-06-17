@@ -8,8 +8,15 @@ class LoginBottomAction extends StatelessWidget {
   final String titulo;
   final TextEditingController emailText;
   final TextEditingController passText;
+  final GlobalKey<FormState>? formKey;
 
-  const LoginBottomAction({Key? key, required this.titulo, required this.emailText, required this.passText}) : super(key: key);
+  const LoginBottomAction({
+    Key? key,
+    required this.titulo,
+    required this.emailText,
+    required this.passText,
+    this.formKey,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +37,16 @@ class LoginBottomAction extends StatelessWidget {
         ),
         child: TextButton(
           onPressed: () {
-            final emailError = _getErrorText(emailText.text, isPassword: false);
-            final passError = _getErrorText(passText.text, isPassword: true);
-
-            if (emailError == null && passError == null) {
-              if (titulo == "Iniciar sesión") {
+            if (titulo == "Iniciar sesión") {
+              if (formKey != null && formKey!.currentState!.validate()) {
                 final loginProvider = Provider.of<LoginProvider>(context, listen: false);
                 loginProvider.loginUser(
                   correo: emailText.text,
                   password: passText.text,
                   onSuccess: () {
-                    // Aquí imprime la información del usuario al iniciar sesión
-                    print('Información del usuario: ${loginProvider.userInfo}');
-                    Get.toNamed("/home");
+                    // Redirigir a la página de inicio después de iniciar sesión
+                    Get.offNamed("/home");
+                    // Limpiar campos de texto
                     emailText.clear();
                     passText.clear();
                   },
@@ -56,16 +60,8 @@ class LoginBottomAction extends StatelessWidget {
                   },
                 );
               }
-              if (titulo == "Registrarse") {
-                Get.toNamed("/registrarse");
-              }
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(emailError ?? passError ?? "Error desconocido"),
-                  duration: const Duration(seconds: 3),
-                ),
-              );
+            } else if (titulo == "Registrarse") {
+              Get.toNamed("/registrarse");
             }
           },
           child: Text(
@@ -76,18 +72,5 @@ class LoginBottomAction extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String? _getErrorText(String text, {bool isPassword = false}) {
-    if (isPassword) {
-      if (text.isEmpty) return 'La contraseña es obligatoria';
-      if (text.length < 10) return 'La contraseña debe tener al menos 10 caracteres';
-      if (text.length > 20) return 'La contraseña no debe exceder los 20 caracteres';
-    } else {
-      if (text.isEmpty) return 'El correo es obligatorio';
-      final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
-      if (!emailRegex.hasMatch(text)) return 'El correo no es válido';
-    }
-    return null;
   }
 }
