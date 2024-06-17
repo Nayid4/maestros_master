@@ -31,6 +31,3 @@ void main() async {
     ),
   );
 }
-
-// Añadir options si quieres hacer el debug usando el navegador
-// En caso de hacer el building directamente en el dispositivo eliminar el object option
