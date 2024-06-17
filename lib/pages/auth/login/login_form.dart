@@ -10,7 +10,6 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Color mycolor = const Color.fromRGBO(0, 191, 99, 1);
 
     return Column(
@@ -18,8 +17,7 @@ class LoginForm extends StatelessWidget {
       children: <Widget>[
         Text(
           "Bienvenido",
-          style: TextStyle(
-              color: mycolor, fontSize: 32, fontWeight: FontWeight.w500),
+          style: TextStyle(color: mycolor, fontSize: 32, fontWeight: FontWeight.w500),
         ),
         _buildTextGray("Ingrese sus credenciales"),
         const SizedBox(height: 50),

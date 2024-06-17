@@ -3,7 +3,7 @@ import 'register_top.dart';
 import 'register_bottom.dart';
 
 class RegisterGet extends StatelessWidget {
-  const RegisterGet({Key? key}) : super(key: key);
+  const RegisterGet({super.key});
 
   static Color mycolor = const Color.fromRGBO(0, 191, 99, 1);
   static late Size mediaSize;
